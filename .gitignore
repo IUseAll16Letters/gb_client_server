@@ -1,9 +1,10 @@
 # created by virtualenv automatically
 /.git
 /.idea
-
 /Lib
 /Scripts
+/practice
+
 /practice
 
 pyvenv.cfg
