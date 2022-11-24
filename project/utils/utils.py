@@ -1,6 +1,5 @@
 import json
 import datetime
-import threading
 import time
 
 from asyncio import StreamWriter
@@ -53,7 +52,7 @@ async def handle_message(
         writer.close()
 
     elif Message(message.get('action')) is Message.authenticate:
-        if is_authorized(message, authorized) or authorize(message, get_database("db.txt"), authorized, writer):
+        if is_authorized(message, authorized) or authorize(message, get_database_object("db.txt"), authorized, writer):
             writer.write(generate_response_message(Status.OK, **{"message": 'Well connected'}))
             await writer.drain()
             return {"user": message[USER][USERNAME]}
@@ -81,10 +80,13 @@ def handle_response(server_response: bytes) -> Tuple[bool, str]:
     response_data: dict = json.loads(server_response.decode(ENCODING))
     try:
         status = response_data.get('response')
-        if status and Status(status) is Status.OK:
-            return True, response_data['message']
-        elif Message(response_data.get('action')) is Message.msg:
-            return True, f"from {response_data['from']}: {response_data['content']}"
+        if status:
+            if Status(status) is Status.OK:
+                return True, response_data['message']
+            elif Status(status) is Status.NotAuthorized:
+                return False, f'Wrong user data'
+            elif Message(response_data.get('action')) is Message.msg:
+                return True, f"from {response_data['from']}: {response_data['message']}"
         else:
             return False, response_data['error']
     except KeyError:
@@ -92,7 +94,7 @@ def handle_response(server_response: bytes) -> Tuple[bool, str]:
         return False, ''
 
 
-def get_database(file_path: str) -> dict:
+def get_database_object(file_path: str) -> dict:
     users_data = {}
     with open(file_path, 'r', encoding=ENCODING) as db:
         for line in db.readlines():
@@ -100,10 +102,6 @@ def get_database(file_path: str) -> dict:
             users_data.update({username.strip(): password.strip()})
 
     return users_data
-
-
-def initialize():
-    pass
 
 
 def make_secure_password(password: str) -> str:
@@ -118,11 +116,7 @@ def verify_password(username: str, password: str, db_object: dict) -> bool:
 
 
 def get_user_data_from_set(user_dataset: dict) -> Tuple[str, str]:
-    try:
-        return (user_dataset[USER][USERNAME], user_dataset[USER][PASSWORD])
-    except KeyError:
-        print("Wrong data set passed")
-        return ('', '')
+    return (user_dataset[USER][USERNAME], user_dataset[USER][PASSWORD])
 
 
 # @логаем.debug
@@ -144,7 +138,7 @@ def authorize(user_data: dict, db_object: dict, authorized: dict, writer):
 
 def is_authorized(user_data: dict, authorized: dict):
     print('IS AUTHORIZED')
-    if user_data.get(USER).get(USERNAME) in authorized:
+    if get_user_data_from_set(user_data)[0] in authorized:
         print(f'User is already authorized\n{authorized = }')
         return True
     return False
@@ -153,18 +147,24 @@ def is_authorized(user_data: dict, authorized: dict):
 async def client_send_message_loop(writer, username: str):
     print("Type 'quit' in username to leave the chat")
     while True:
-        message_to = input('Send to >> ')
-        if message_to == 'quit':
-            writer.write(make_message(Message.quit))
-            return
-        buffer = input("Content >> ")
-        writer.write(make_message(Message.msg, **{'content': buffer, 'from': username, 'to': message_to}))
-        await writer.drain()
-        time.sleep(0.25)
+        try:
+            message_to = input('Send to >> ')
+            if message_to == 'quit':
+                writer.write(make_message(Message.quit))
+                return
+            buffer = input("Message >> ")
+            writer.write(make_message(Message.msg, **{'message': buffer, 'from': username, 'to': message_to}))
+            await writer.drain()
+            time.sleep(0.25)
+        except UnicodeDecodeError:
+            return -1
 
 
 if __name__ == '__main__':
-    print(get_database("../db.txt"))
+    print(get_database_object("../db.txt"))
     rsp = generate_response_message(Status.OK, **{"alert": 'Well connected'})
     print(make_secure_password('s'))
     print(handle_response(rsp))
+    print(make_message(
+            Message.msg,
+            **{'from': 'Herasimu', 'to': 'Santa-Claus', 'message': "Hello santa!"}))

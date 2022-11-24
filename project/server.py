@@ -2,8 +2,12 @@ import asyncio
 import time
 
 from asyncio.streams import StreamWriter, StreamReader
-from utils.config import *
-from utils.utils import handle_message, get_database
+if __name__ == '__main__':
+    from utils.config import *
+    from utils.utils import handle_message, get_database_object
+else:
+    from project.utils.config import *
+    from project.utils.utils import handle_message, get_database_object
 
 
 async def handler(reader: StreamReader, writer: StreamWriter):
@@ -24,12 +28,14 @@ async def handler(reader: StreamReader, writer: StreamWriter):
             print(f'User "{username}" disconnected')
             try:
                 authorized.pop(username)
+                print(authorized.keys())
             except KeyError as k_e:
                 print(f'Server error | {username} {writer.get_extra_info("peername")} has already left')
+
         else:
             print(f"{writer.get_extra_info('peername')} has disconnected without authorization")
 
-        writer.close()
+    writer.close()
 
 
 async def main() -> None:
@@ -42,7 +48,7 @@ async def main() -> None:
 
 
 if __name__ == '__main__':
-    database_users = get_database("db.txt")
+    database_users = get_database_object("db.txt")
     authorized = dict()
     try:
         asyncio.run(main())

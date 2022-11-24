@@ -4,9 +4,7 @@
 /Lib
 /Scripts
 /practice
-
-/practice
-/lesson_3/asc.py
-/lesson_3/task
+/project/asc.py
+/project/task
 
 pyvenv.cfg
