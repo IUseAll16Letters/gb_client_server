@@ -4,55 +4,57 @@ import unittest
 
 from project.utils.utils import *
 from project.utils.config import *
-from project.client import tcp_client
-from project.server import handler
 
 
-def remove_time(message: bytes):
-    message = message.decode(ENCODING)
-    pattern = re.compile(r', "time": \d*\.\d*')
-    return pattern.sub('', message).encode(ENCODING)
+def remove_ping_timings_from_list(list_of_strings: list) -> list:
+    re_pattern = re.compile(r' \| ping: -?\d*.\d* s')
+    return list(map(lambda x: re_pattern.sub('', x), list_of_strings))
 
 
 class TestServerMessageHandler(unittest.TestCase):
-    def setUp(self) -> None:
-        async def get_writer_object(r, writer):
-            return writer
 
-        async def get_writer():
-            writer = await asyncio.gather(
-                asyncio.start_server(get_writer_object, HOST, PORT))
-            return writer
+    def test_server_handler(self):
 
-        self.writer = asyncio.run(get_writer())
+        response_results = []
 
-    def test_server_is_a_teapot(self):
-        print('Server is a teapot')
-        result_response = generate_response_message(
-            Status.IAmATeapot,
-            **{'message': 'Hello. I am a teapot'})
-        required_response = b'{"response": 418, "message": "Hello. I am a teapot"}'
+        async def _tcp_client():
+            nonlocal response_results
+            try:
+                reader, writer = await asyncio.open_connection(host=HOST, port=PORT)
+                print(reader, writer)
 
-        self.assertEqual(
-            result_response,
-            required_response,
-            msg=f'{required_response = }\n{result_response = }'
-        )
+            except ConnectionRefusedError:
+                print('Remote server is not responding')
 
-    def test_server_handles_quit_command(self):
-        async def server_main():
-            server = await asyncio.start_server(
-                handler, HOST, PORT)
+            messages = [
+                (Message.authenticate, {'user': {'username': 'u2', 'password': 'password'}}),
+                (Message.ping, dict()),
+                (Message.presence, dict()),
+                (Message.coffee, dict()),
+            ]
 
-            async with server:
-                print(f'Listening at {HOST}:{PORT}')
-                await server.serve_forever()
+            for message in messages:
+                writer.write(make_message(message[0], **message[1]))
+                await writer.drain()
 
-        asyncio.run(server_main())
+                server_response = await reader.read(PACKAGE_SIZE)
+                _, message = handle_response(server_response)
+                print(f'{message = }')
+                response_results.append(message)
 
+            writer.close()
 
-# class AsyncTest(unittest.IsolatedAsyncioTestCase):
-#
-#     async def test_func(self):
-#         result = await
-#         self.assertEqual()
+        async def connect_server_main():
+            await asyncio.gather(asyncio.create_task(_tcp_client()))
+
+        asyncio.run(connect_server_main())
+
+        required_results = [
+            'response: 200 | message: Authorized',
+            'response: 200 | ping: -0.49531 s',
+            'response: 200',
+            'response: 418 | message: Server is a teapot'
+        ]
+        required_results = remove_ping_timings_from_list(required_results)
+        response_results = remove_ping_timings_from_list(response_results)
+        self.assertEqual(response_results, required_results, msg='Wrong response from server')

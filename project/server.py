@@ -1,13 +1,21 @@
 import asyncio
+import argparse
 import time
 
 from asyncio.streams import StreamWriter, StreamReader
 if __name__ == '__main__':
     from utils.config import *
-    from utils.utils import handle_message, get_database_object
+    from utils.utils import handle_request, get_database_object
 else:
     from project.utils.config import *
-    from project.utils.utils import handle_message, get_database_object
+    from project.utils.utils import handle_request, get_database_object
+
+
+authorized = dict()
+try:
+    database_users = get_database_object('../db.txt')
+except FileNotFoundError:
+    database_users = get_database_object('db.txt')
 
 
 async def handler(reader: StreamReader, writer: StreamWriter):
@@ -17,11 +25,17 @@ async def handler(reader: StreamReader, writer: StreamWriter):
         while True:
             request = await reader.read(PACKAGE_SIZE)
             print(f'REQUEST | {request = }')
-            resp_data = await handle_message(message=request, writer=writer, authorized=authorized)
-            if resp_data and resp_data.get('user') is not None:
+            resp_data = await handle_request(
+                message=request,
+                writer=writer,
+                authorized=authorized,
+                db_object=database_users
+            )
+            # Зачем это тут на каждом сообщении, м?
+            if isinstance(resp_data, dict) and resp_data.get('user') is not None:
                 username = resp_data.get('user')
 
-            time.sleep(1)
+            time.sleep(0.5)
 
     except ConnectionResetError as e:
         if username:
@@ -39,17 +53,19 @@ async def handler(reader: StreamReader, writer: StreamWriter):
 
 
 async def main() -> None:
-    server = await asyncio.start_server(
-        handler, HOST, PORT)
+    argument_parser = argparse.ArgumentParser(description='Server start parameters')
+    argument_parser.add_argument('-hs', '--host', type=str, dest='host', help=f'Server ip, def = {HOST}', default=HOST)
+    argument_parser.add_argument('-p', '--port', type=int, dest='port', default=PORT)
+
+    arguments = argument_parser.parse_args()
+
+    server = await asyncio.start_server(handler, arguments.host, arguments.port)
 
     async with server:
         print(f'Listening at {HOST}:{PORT}')
         await server.serve_forever()
 
-
 if __name__ == '__main__':
-    database_users = get_database_object("db.txt")
-    authorized = dict()
     try:
         asyncio.run(main())
     except KeyboardInterrupt as e:

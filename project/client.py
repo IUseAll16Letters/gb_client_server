@@ -1,4 +1,5 @@
 import asyncio
+import argparse
 import time
 import threading
 
@@ -26,50 +27,51 @@ async def tcp_client(host: str, port: int):
                 writer.write(make_message(Message.quit))
                 return
             user_login_data = {
-                'user': {'username': username_input,
-                         'password': user_password}}
+                'user': {USERNAME: username_input,
+                         PASSWORD: user_password}}
 
             writer.write(make_message(Message.authenticate, **user_login_data))
             await writer.drain()
 
             permit, message = handle_response(await reader.read(PACKAGE_SIZE))
-            print(f'MESAGE = {message}')
             if permit:
                 print('Logging ...')
                 break
 
             time.sleep(1)
 
-        t2 = threading.Thread(target=asyncio.run,
-                              args=(client_send_message_loop(
-                                  writer,
-                                  user_login_data['user']['username']),
-                              ))
+        t2 = threading\
+            .Thread(target=asyncio.run, args=(client_send_message_loop(writer, user_login_data['user']['username']), ))
         t2.start()
 
         while True:
             server_response = await reader.read(PACKAGE_SIZE)
             _, message = handle_response(server_response)
-            print(f'{message = }')
+            print(f'-- {message = }')
             await asyncio.sleep(0.1)
 
-    except ConnectionResetError:
-        print('Server has dropped connection')
-        asyncio.get_event_loop().close()
+    except ConnectionResetError as connection_error:
+        print(connection_error)
 
     return 1
 
 
 async def main():
-    task = asyncio.create_task(tcp_client(HOST, PORT))
+    argument_parser = argparse.ArgumentParser(description='Server start parameters')
+    argument_parser.add_argument('-hs', '--host', type=str, dest='host', help=f'Server ip, def = {HOST}', default=HOST)
+    argument_parser.add_argument('-p', '--port', type=int, dest='port', default=PORT)
+
+    arguments = argument_parser.parse_args()
+    task = asyncio.create_task(tcp_client(arguments.host, arguments.port))
+
     return await asyncio.gather(task)
 
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    loop.set_debug(enabled=True)
+    # if DEBUG:
+    #     loop.set_debug(enabled=True)
     try:
         loop.run_until_complete(main())
-        # asyncio.run(main())
     except KeyboardInterrupt as e:
         print('\nConnection terminated')

@@ -74,4 +74,3 @@ class TestUtils(unittest.TestCase):
         is_authorized_flag = is_authorized(self.user_data, self.authorized)
         self.assertTrue(is_authorized_flag, msg=f'Wrong result for {self.username}\n'
                                                 f'{self.authorized = }')
-

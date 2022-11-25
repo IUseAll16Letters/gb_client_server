@@ -4,6 +4,9 @@ __all__ = 'Status', 'Message', 'ACTION', 'ENCODING', 'PACKAGE_SIZE', \
 from enum import Enum, auto
 
 
+DEBUG = True
+
+
 class Status(Enum):
     OK = 200
     MovedPermanently = 301
@@ -16,17 +19,19 @@ class Status(Enum):
 
 
 class Message(Enum):
-    authenticate = auto()
+    authenticate = auto()   # 1
     error = auto()
     msg = auto()
-    probe = auto()
-    presence = auto()
-    join = auto()
+    ping = auto()
+    presence = auto()       # 5
+    join = auto()           # 6
     leave = auto()
-    quit = auto()
+    quit = auto()           # 8
 
+    if DEBUG:
+        shutdown = auto()   # 9
+        coffee = auto()     # 10
 
-DEBUG = True
 
 ACTION = 'action'
 ENCODING = 'utf-8'
