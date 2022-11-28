@@ -8,3 +8,7 @@
 /practice
 
 pyvenv.cfg
+
+
+*.zip
+*.7z
