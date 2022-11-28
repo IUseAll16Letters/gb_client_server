@@ -1,7 +1,10 @@
 __all__ = 'Status', 'Message', 'ACTION', 'ENCODING', 'PACKAGE_SIZE', \
-          'HOST', 'PORT', 'PASSWORD_SALT', 'TIME', 'USER', 'USERNAME', 'PASSWORD'
+          'HOST', 'PORT', 'PASSWORD_SALT', 'TIME', 'USER', 'USERNAME', 'PASSWORD', 'DEBUG'
 
 from enum import Enum, auto
+
+
+DEBUG = True
 
 
 class Status(Enum):
@@ -12,20 +15,23 @@ class Status(Enum):
     NotFound = 404
     Conflict = 409
     IAmATeapot = 418
+    ServiceUnavailable = 503
 
 
 class Message(Enum):
-    authenticate = auto()
+    authenticate = auto()   # 1
     error = auto()
     msg = auto()
-    probe = auto()
-    presence = auto()
-    join = auto()
+    ping = auto()
+    presence = auto()       # 5
+    join = auto()           # 6
     leave = auto()
-    quit = auto()
+    quit = auto()           # 8
 
+    if DEBUG:
+        shutdown = auto()   # 9
+        coffee = auto()     # 10
 
-DEBUG = False
 
 ACTION = 'action'
 ENCODING = 'utf-8'
@@ -36,7 +42,8 @@ PASSWORD = 'password'
 
 PACKAGE_SIZE = 604  # Max package size in bytes
 
-HOST = '192.168.0.103'
+# HOST = '192.168.0.103'
+HOST = '127.0.0.1'
 PORT = 4444
 
 PASSWORD_SALT = 'a1e0b9ed02d0719c313114ae83b93dfb2e48d7e99a7624af894aaa81205f44d1'
