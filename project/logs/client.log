@@ -1,0 +1,25 @@
+2022-11-29 15:18:32,054 |    INFO | client | asd
+2022-11-29 15:18:32,054 |    INFO | client | asd
+2022-11-29 15:18:32,086 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:32,086 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:43,411 |    INFO | client | asd
+2022-11-29 15:18:43,411 |    INFO | client | asd
+2022-11-29 15:18:43,444 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:43,444 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:52,747 |    INFO | client | asd
+2022-11-29 15:18:52,747 |    INFO | client | asd
+2022-11-29 15:18:52,780 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:52,780 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:59,093 |    INFO | client | asd
+2022-11-29 15:18:59,093 |    INFO | client | asd
+2022-11-29 15:18:59,125 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:18:59,125 |    INFO | client | fnc: making_magic | args: (1, 2) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\logs\test.py | Called from function baking_cakes line 13 | 
+2022-11-29 15:19:29,759 |    INFO | client | fnc: make_secure_password | args: ('password',) | kwargs: {} | stated in: I:\docker_practice\gb_client_server_apps\project\utils\utils.py | Called from function verify_password line 145 | 
+2022-11-29 16:43:47,158 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-11-29 16:43:47,167 |    INFO | client | Logging as u2...
+2022-11-29 16:43:47,167 |    INFO | client | Starting input thread
+2022-11-29 16:45:48,621 |   ERROR | client | Server has disconnected
+2022-11-29 16:45:52,518 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-11-29 16:45:52,526 |    INFO | client | Logging as u2...
+2022-11-29 16:45:52,526 |    INFO | client | Starting input thread
+2022-11-29 16:46:38,441 |    INFO | client | Connection terminated
