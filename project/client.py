@@ -52,21 +52,22 @@ async def tcp_client(host: str, port: int):
         while True:
             server_response = await reader.read(PACKAGE_SIZE)
             _, message = handle_response(server_response)
+            print(message)
             await asyncio.sleep(0.1)
 
-    except ConnectionResetError as connection_error:
-        logs.ClientLoggerObject.logger.error(msg=connection_error)
+    except ConnectionResetError as connection_reset:
+        logs.ClientLoggerObject.logger.warning(msg=connection_reset)
 
     return 1
 
 
 async def main():
     argument_parser = argparse.ArgumentParser(description='Server start parameters')
-    argument_parser.add_argument('-hs', '--host', type=str, dest='host', help=f'Server ip, def = {HOST}', default=HOST)
+    argument_parser.add_argument('-a', '--addr', type=str, dest='addr', help=f'Server ip, def = {HOST}', default=HOST)
     argument_parser.add_argument('-p', '--port', type=int, dest='port', default=PORT)
 
     arguments = argument_parser.parse_args()
-    task = asyncio.create_task(tcp_client(arguments.host, arguments.port))
+    task = asyncio.create_task(tcp_client(arguments.addr, arguments.port))
 
     return await asyncio.gather(task)
 

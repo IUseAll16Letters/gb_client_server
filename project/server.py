@@ -18,7 +18,7 @@ authorized = dict()
 database_users = get_database_object(DIR_PATH / 'db.txt')
 
 
-async def handler(reader: StreamReader, writer: StreamWriter):
+async def handler(reader: StreamReader, writer: StreamWriter) -> None:
     logs.ServerLoggerObject.logger.info(msg=f'Connection from {writer.get_extra_info("peername")} | waiting authorize')
     username = None
     try:
@@ -34,7 +34,7 @@ async def handler(reader: StreamReader, writer: StreamWriter):
             if isinstance(resp_data, dict) and resp_data.get('user') is not None:
                 username = resp_data.get('user')
 
-            time.sleep(0.5)
+            time.sleep(0.25)
 
     except ConnectionResetError as e:
         if username:
@@ -55,8 +55,8 @@ async def handler(reader: StreamReader, writer: StreamWriter):
 
 async def main() -> None:
     argument_parser = argparse.ArgumentParser(description='Server start parameters')
-    argument_parser.add_argument('-a', '--addr', type=str, dest='addr',
-                                 help=f'Server ip, def = {HOST}', default=HOST)
+    argument_parser\
+        .add_argument('-a', '--addr', type=str, dest='addr', help=f'Server ip, def = {HOST}', default=HOST)
     argument_parser.add_argument('-p', '--port', type=int, dest='port', default=PORT)
 
     arguments = argument_parser.parse_args()
