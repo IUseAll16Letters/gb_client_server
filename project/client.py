@@ -1,8 +1,12 @@
 import asyncio
 import argparse
+import sys
 import time
 import threading
 
+if __name__ == '__main__':
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent.parent))
 
 from project.utils.config import *
 from project.utils.utils import make_message, handle_response, client_send_message_loop

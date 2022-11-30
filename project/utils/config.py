@@ -7,7 +7,9 @@ __all__ = [
 from pathlib import Path
 from enum import Enum, auto
 
+
 DEBUG = True
+DIR_PATH = Path(__file__).parent.parent
 
 
 class Status(Enum):
@@ -35,8 +37,6 @@ class Message(Enum):
         shutdown = auto()  # 9
         coffee = auto()  # 10
 
-
-DIR_PATH = Path(__file__).parent.parent
 
 CLIENT_LOG_LEVEL = 10
 SERVER_LOG_LEVEL = 10
