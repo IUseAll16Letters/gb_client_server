@@ -1,9 +1,14 @@
 import asyncio
 import argparse
+import sys
 import time
 
-from asyncio.streams import StreamWriter, StreamReader
+if __name__ == '__main__':
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent.parent))
+
 from project.utils.config import *
+from asyncio.streams import StreamWriter, StreamReader
 from project.utils.utils import handle_request, get_database_object
 from project import logs
 
