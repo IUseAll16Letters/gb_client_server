@@ -5,11 +5,8 @@ import time
 from asyncio import StreamWriter
 from hashlib import sha256
 from typing import Tuple, Optional, Dict
-
-if __name__ == '__main__':
-    from config import *
-else:
-    from project.utils.config import *
+from project.utils.config import *
+from project import logs
 
 
 class AuthorizationError(ConnectionError):
@@ -25,10 +22,11 @@ def make_message(message_type: Message, **kwargs):
     message_body.update({ACTION: message_type.value})
     message_body.update({TIME: datetime.datetime.now().timestamp()})
 
-    print(f'CLI | UTL | Make message | {message_body}')
+    # print(f'CLI | UTL | Make message | {message_body}')
     return json.dumps(message_body, ensure_ascii=False, sort_keys=True).encode(ENCODING)
 
 
+@logs.ServerLoggerObject
 def generate_response_message(code: Status, **kwargs):
     message_body = {"response": code.value}
     message_body.update(**kwargs)
@@ -37,8 +35,8 @@ def generate_response_message(code: Status, **kwargs):
 
 
 async def handle_request(message: bytes, writer: StreamWriter, authorized: Optional[Dict[str, StreamWriter]] = None,
-                         db_object: dict = None, test_kwargs: dict = None):
-    print(f"HANDLE REQUEST | {message = }")
+                         db_object: dict = None):
+    # print(f"HANDLE REQUEST | {message = }")
     if not message:
         raise ConnectionResetError
 
@@ -46,25 +44,21 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
     request_action = Message(message.get('action'))
 
     if request_action is Message.quit:
-        if not test_kwargs:
-            print(f'Client {writer.get_extra_info("peername")} wants to quit')
-            writer.close()
-        else:
-            print('\033[33mWarning! server is running in test mode\033[0m')
+        logs.ServerLoggerObject.logger.info(msg=f'Client {writer.get_extra_info("peername")} wants to quit')
+        writer.close()
         return 0
 
     elif request_action is Message.authenticate:
-        print("HANDLE AUTH")
+        # print("HANDLE AUTH")
         if DEBUG and not db_object:
             db_object = get_database_object('../db.txt')
 
         if is_authorized(message, authorized) or authorize(message, db_object, authorized, writer):
-            if not test_kwargs:
-                writer.write(generate_response_message(Status.OK, **{"message": 'Authorized'}))
-                await writer.drain()
+            writer.write(generate_response_message(Status.OK, **{"message": 'Authorized'}))
+            await writer.drain()
             return {"user": message[USER][USERNAME]}
         else:
-            print('Cant authorized')
+            logs.ServerLoggerObject.logger.warning('User cant get authorized')
             writer.write(generate_response_message(Status.NotAuthorized, **{"error": 'Wrong user or password'}))
             await writer.drain()
             time.sleep(1)
@@ -87,12 +81,6 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
         writer.write(generate_response_message(Status.OK))
         return 0
 
-    elif DEBUG and test_kwargs and request_action is Message.shutdown:
-        event = test_kwargs.get('event')
-        print(id(event))
-        event.set()
-        return 1
-
     elif request_action is Message.ping:
         ping = f"{round(datetime.datetime.now().timestamp() - message.get('time') - 0.5, 5)} s"
         writer.write(generate_response_message(Status.OK, **{'ping': ping}))
@@ -101,6 +89,7 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
 
     elif request_action is Message.coffee:
         writer.write(generate_response_message(Status.IAmATeapot, **{'message': "Server is a teapot"}))
+        logs.ServerLoggerObject.logger.info(msg='Server is a teapot!')
         return 0
 
 
@@ -127,6 +116,7 @@ def handle_response(server_response: bytes) -> Tuple[bool, str]:
         return False, 'err'
 
 
+@logs.ServerLoggerObject
 def get_database_object(file_path: str) -> dict:
     users_data = {}
     with open(file_path, 'r', encoding=ENCODING) as db:
@@ -137,12 +127,12 @@ def get_database_object(file_path: str) -> dict:
     return users_data
 
 
+@logs.ServerLoggerObject
 def make_secure_password(password: str) -> str:
     return sha256((password + PASSWORD_SALT).encode(ENCODING)).hexdigest().upper()
 
 
 def verify_password(username: str, password: str, db_object: dict) -> bool:
-    print("VERIFY")
     password_hash = make_secure_password(password)
     user_password = db_object.get(username)
     return user_password == password_hash
@@ -152,11 +142,9 @@ def get_user_data_from_set(user_dataset: dict) -> Tuple[str, str]:
     return (user_dataset[USER][USERNAME], user_dataset[USER][PASSWORD])
 
 
-# @логаем.debug
 def authorize(user_data: dict, db_object: dict, authorized: dict, writer):
-    print('AUTHORIZE')
+    username, password = get_user_data_from_set(user_data)
     try:
-        username, password = get_user_data_from_set(user_data)
         if any((username, password)) and verify_password(username, password, db_object):
             authorized.update({username: writer})
             print(f'User "{username}" authorized, {authorized.keys() = }')
@@ -165,14 +153,15 @@ def authorize(user_data: dict, db_object: dict, authorized: dict, writer):
             raise AuthorizationError(f"Wrong password for: {username}")
 
     except AuthorizationError as e:
-        print(e)
+        logs.ServerLoggerObject.logger.warning(msg=e)
         return False
 
 
+@logs.ServerLoggerObject
 def is_authorized(user_data: dict, authorized: dict):
-    print('IS AUTHORIZED')
+    # print('IS AUTHORIZED')
     if get_user_data_from_set(user_data)[0] in authorized:
-        print(f'User is already authorized\n{authorized = }')
+        logs.ServerLoggerObject.logger.info(f'User is already authorized\n{authorized = }')
         return True
     return False
 

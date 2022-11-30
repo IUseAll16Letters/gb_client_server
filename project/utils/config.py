@@ -1,8 +1,11 @@
-__all__ = 'Status', 'Message', 'ACTION', 'ENCODING', 'PACKAGE_SIZE', \
-          'HOST', 'PORT', 'PASSWORD_SALT', 'TIME', 'USER', 'USERNAME', 'PASSWORD', 'DEBUG'
+__all__ = [
+    'Status', 'Message', 'ACTION', 'ENCODING', 'PACKAGE_SIZE',
+    'HOST', 'PORT', 'PASSWORD_SALT', 'TIME', 'USER', 'USERNAME',
+    'PASSWORD', 'DEBUG', 'DIR_PATH', 'CLIENT_LOG_LEVEL', 'SERVER_LOG_LEVEL'
+]
 
+from pathlib import Path
 from enum import Enum, auto
-
 
 DEBUG = True
 
@@ -19,19 +22,24 @@ class Status(Enum):
 
 
 class Message(Enum):
-    authenticate = auto()   # 1
+    authenticate = auto()  # 1
     error = auto()
     msg = auto()
     ping = auto()
-    presence = auto()       # 5
-    join = auto()           # 6
+    presence = auto()  # 5
+    join = auto()  # 6
     leave = auto()
-    quit = auto()           # 8
+    quit = auto()  # 8
 
     if DEBUG:
-        shutdown = auto()   # 9
-        coffee = auto()     # 10
+        shutdown = auto()  # 9
+        coffee = auto()  # 10
 
+
+DIR_PATH = Path(__file__).parent.parent
+
+CLIENT_LOG_LEVEL = 10
+SERVER_LOG_LEVEL = 10
 
 ACTION = 'action'
 ENCODING = 'utf-8'

@@ -3,29 +3,28 @@ import argparse
 import time
 import threading
 
-if __name__ == '__main__':
-    from utils.config import *
-    from utils.utils import make_message, handle_response, client_send_message_loop
-else:
-    from project.utils.config import *
-    from project.utils.utils import make_message, handle_response, client_send_message_loop
+
+from project.utils.config import *
+from project.utils.utils import make_message, handle_response, client_send_message_loop
+from project import logs
 
 
 async def tcp_client(host: str, port: int):
-    print(f'Connecting to: {host}:{port}')
+    logs.ClientLoggerObject.logger.info(msg=f'Connecting to: {host}:{port}')
     try:
         reader, writer = await asyncio.open_connection(host=host, port=port)
     except ConnectionRefusedError:
-        print('Remote server is not responding')
+        logs.ClientLoggerObject.logger.info('Remote server is not responding')
         return -1
 
     try:
         while True:
             username_input = 'u2' if DEBUG else input('username: ').strip()
             user_password = 'password' if DEBUG else input('password: ').strip()
+
             if username_input == 'quit':
                 writer.write(make_message(Message.quit))
-                return
+                return -1
             user_login_data = {
                 'user': {USERNAME: username_input,
                          PASSWORD: user_password}}
@@ -35,23 +34,24 @@ async def tcp_client(host: str, port: int):
 
             permit, message = handle_response(await reader.read(PACKAGE_SIZE))
             if permit:
-                print('Logging ...')
+                logs.ClientLoggerObject.logger.info(msg=f'Logging as {username_input}...')
                 break
 
             time.sleep(1)
 
+        logs.ClientLoggerObject.logger.info(msg='Starting input thread')
         t2 = threading\
-            .Thread(target=asyncio.run, args=(client_send_message_loop(writer, user_login_data['user']['username']), ))
+            .Thread(target=asyncio.run, args=(client_send_message_loop(writer, user_login_data['user']['username']), ),
+                    daemon=True)
         t2.start()
 
         while True:
             server_response = await reader.read(PACKAGE_SIZE)
             _, message = handle_response(server_response)
-            print(f'-- {message = }')
             await asyncio.sleep(0.1)
 
     except ConnectionResetError as connection_error:
-        print(connection_error)
+        logs.ClientLoggerObject.logger.error(msg=connection_error)
 
     return 1
 
@@ -69,9 +69,8 @@ async def main():
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    # if DEBUG:
-    #     loop.set_debug(enabled=True)
     try:
         loop.run_until_complete(main())
     except KeyboardInterrupt as e:
-        print('\nConnection terminated')
+        logs.ClientLoggerObject.logger.info(msg='Connection terminated')
+        loop.close()

@@ -14,3 +14,7 @@
 /lesson_3/task
 
 pyvenv.cfg
+
+
+*.zip
+*.7z
