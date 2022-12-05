@@ -1,12 +1,15 @@
 import json
 import datetime
 import time
+import sqlalchemy
 
 from asyncio import StreamWriter
 from hashlib import sha256
-from typing import Tuple, Optional, Dict
+from typing import Tuple, Optional, Dict, Union
 from project.utils.config import *
 from project import logs
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncConnection
 
 
 class AuthorizationError(ConnectionError):
@@ -35,8 +38,8 @@ def generate_response_message(code: Status, **kwargs):
 
 
 async def handle_request(message: bytes, writer: StreamWriter, authorized: Optional[Dict[str, StreamWriter]] = None,
-                         db_object: dict = None):
-    # print(f"HANDLE REQUEST | {message = }")
+                         db_object: Union[dict, AsyncConnection] = None):
+    print(f"HANDLE REQUEST | {message = }")
     if not message:
         raise ConnectionResetError
 
@@ -49,13 +52,20 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
         return 0
 
     elif request_action is Message.authenticate:
-        # print("HANDLE AUTH")
-        if DEBUG and not db_object:
-            db_object = get_database_object('../db.txt')
+        print("HANDLE AUTH")
 
         if is_authorized(message, authorized) or authorize(message, db_object, authorized, writer):
             writer.write(generate_response_message(Status.OK, **{"message": 'Authorized'}))
             await writer.drain()
+
+            # max_id = await db_object.execute(text("SELECT MAX(connection_id) FROM connections"))
+            # max_id = max_id.all()[0][0]
+            # max_id = max_id + 1 if max_id is not None else 1
+            #
+            # user_addr = str(writer.get_extra_info('peername')).replace("'", '')
+            # await db_object.execute(text(f"INSERT INTO connections VALUES ({max_id}, '{user_addr}')"))
+            # await db_object.commit()
+
             return {"user": message[USER][USERNAME]}
         else:
             logs.ServerLoggerObject.logger.warning('User cant get authorized')
@@ -145,7 +155,7 @@ def get_user_data_from_set(user_dataset: dict) -> Tuple[str, str]:
 def authorize(user_data: dict, db_object: dict, authorized: dict, writer):
     username, password = get_user_data_from_set(user_data)
     try:
-        if any((username, password)) and verify_password(username, password, db_object):
+        if all((username, password)) and verify_password(username, password, db_object):
             authorized.update({username: writer})
             print(f'User "{username}" authorized, {authorized.keys() = }')
             return True
@@ -182,6 +192,25 @@ async def client_send_message_loop(writer, username: str):
             return -1
         except RuntimeError:
             return -1
+
+
+async def setup_db(conn: AsyncConnection):
+    await conn.execute(text(f'DROP TABLE IF EXISTS connections'))
+
+    await conn.execute(text(f'CREATE TABLE IF NOT EXISTS connections ('
+                            f'connection_id INTEGER PRIMARY KEY,'
+                            f'pername TEXT)'))
+
+    await conn.execute(text(f'DROP TABLE IF EXISTS users'))
+    await conn.execute(text(f'CREATE TABLE IF NOT EXISTS users ('
+                            f'user_id INTEGER PRIMARY KEY,'
+                            f'username VARCHAR(50),'
+                            f'password VARCHAR(100))'))
+    if DEBUG:
+        for i in range(1, 4):
+            await conn.execute(text(f"INSERT INTO users VALUES ({i}, 'u{i}', '{TEST_PASSWORD}')"))
+
+    await conn.commit()
 
 
 if __name__ == '__main__':
