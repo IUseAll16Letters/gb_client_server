@@ -1,12 +1,12 @@
-import asyncio
-import argparse
-import sys
-import time
-import threading
-
 if __name__ == '__main__':
+    import sys
     from pathlib import Path
     sys.path.append(str(Path(__file__).parent.parent))
+
+import asyncio
+import argparse
+import time
+import threading
 
 from project.utils.config import *
 from project.utils.utils import make_message, handle_response, client_send_message_loop
@@ -23,23 +23,41 @@ async def tcp_client(host: str, port: int):
 
     try:
         while True:
-            username_input = 'u2' if DEBUG else input('username: ').strip()
-            user_password = 'password' if DEBUG else input('password: ').strip()
+            try:
+                print('Try auth again')
+                auth = True
+                username_input = 'u2' if DEBUG else input(LOGIN_MESSAGE).strip()
 
-            if username_input == 'quit':
-                writer.write(make_message(Message.quit))
-                return -1
-            user_login_data = {
-                'user': {USERNAME: username_input,
-                         PASSWORD: user_password}}
+                if username_input == 'quit':
+                    writer.write(make_message(Message.quit))
+                    raise ConnectionResetError
 
-            writer.write(make_message(Message.authenticate, **user_login_data))
-            await writer.drain()
+                elif '/register' in username_input.lower() and \
+                        len((username_input := username_input.partition('/register')[-1].strip())) > 3:
+                    user_password = input('Select password: ').strip()
+                    user_password_2 = input('Repeat password: ').strip()
+                    if user_password == user_password_2:
+                        user_login_data = {'user': {USERNAME: username_input, PASSWORD: user_password}}
+                        auth = False
+                    else:
+                        continue
+                else:
+                    user_password = 'password' if DEBUG else input('password: ').strip()
+                    user_login_data = {'user': {USERNAME: username_input, PASSWORD: user_password}}
 
-            permit, message = handle_response(await reader.read(PACKAGE_SIZE))
-            if permit:
-                logs.ClientLoggerObject.logger.info(msg=f'Logging as {username_input}...')
-                break
+                print(f'>{username_input}< | >{user_password}<')
+
+                writer.write(make_message(Message.authenticate if auth else Message.register, **user_login_data))
+                await writer.drain()
+
+                permit, message = handle_response(await reader.read(PACKAGE_SIZE))
+                if permit:
+                    print(f'Logging as {username_input}...')
+                    logs.ClientLoggerObject.logger.info(msg=f"Logging as '{username_input}' ...")
+                    break
+
+            except KeyboardInterrupt:
+                raise ConnectionResetError
 
             time.sleep(1)
 

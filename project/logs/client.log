@@ -275,3 +275,244 @@
 2022-12-05 16:28:03,543 |    INFO | client | Logging as u2...
 2022-12-05 16:28:03,543 |    INFO | client | Starting input thread
 2022-12-05 16:28:07,527 | WARNING | client | Server has disconnected
+2022-12-05 16:34:10,045 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:34:17,460 | WARNING | client | Server has disconnected
+2022-12-05 16:34:30,484 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:34:47,434 | WARNING | client | Server has disconnected
+2022-12-05 16:34:52,430 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:34:52,440 |    INFO | client | Logging as u2...
+2022-12-05 16:34:52,441 |    INFO | client | Starting input thread
+2022-12-05 16:34:58,111 | WARNING | client | Server has disconnected
+2022-12-05 16:45:38,122 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:46:01,333 | WARNING | client | Server has disconnected
+2022-12-05 16:46:07,390 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:46:07,402 |    INFO | client | Logging as u2...
+2022-12-05 16:46:07,402 |    INFO | client | Starting input thread
+2022-12-05 16:47:57,539 | WARNING | client | Server has disconnected
+2022-12-05 16:50:01,184 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:50:08,183 | WARNING | client | Server has disconnected
+2022-12-05 16:50:41,960 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:51:35,386 | WARNING | client | Server has disconnected
+2022-12-05 16:51:41,458 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:51:54,419 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:51:54,420 |    INFO | client | Remote server is not responding
+2022-12-05 16:52:03,889 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:52:03,889 |    INFO | client | Remote server is not responding
+2022-12-05 16:53:17,566 |    INFO | client | Connection terminated
+2022-12-05 16:54:13,335 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:54:17,617 |    INFO | client | Connection terminated
+2022-12-05 16:54:30,730 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:54:32,750 |    INFO | client | Remote server is not responding
+2022-12-05 16:55:06,956 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:55:33,552 |    INFO | client | Connection terminated
+2022-12-05 16:55:53,367 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:56:07,075 |    INFO | client | Connection terminated
+2022-12-05 16:57:09,474 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 16:57:11,902 | WARNING | client | 
+2022-12-05 17:06:46,922 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:07:02,988 | WARNING | client | 
+2022-12-05 17:07:04,845 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:07:16,854 | WARNING | client | 
+2022-12-05 17:11:28,458 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:11:49,255 | WARNING | client | 
+2022-12-05 17:13:47,283 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:13:49,293 | WARNING | client | 
+2022-12-05 17:13:55,194 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:14:01,011 |    INFO | client | Registered as  vasya...
+2022-12-05 17:14:01,011 |    INFO | client | Starting input thread
+2022-12-05 17:15:53,784 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:16:00,049 |    INFO | client | Registered as  vasy...
+2022-12-05 17:16:00,049 |    INFO | client | Starting input thread
+2022-12-05 17:18:09,860 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:18:16,916 |    INFO | client | Registered as  vass...
+2022-12-05 17:18:16,916 |    INFO | client | Starting input thread
+2022-12-05 17:19:50,666 | WARNING | client | Server has disconnected
+2022-12-05 17:19:55,369 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:20:00,110 |    INFO | client | Registered as  vass...
+2022-12-05 17:20:00,110 |    INFO | client | Starting input thread
+2022-12-05 17:20:07,122 | WARNING | client | Server has disconnected
+2022-12-05 17:26:14,794 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:29:06,741 | WARNING | client | Server has disconnected
+2022-12-05 17:29:12,492 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:31:38,226 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:33:28,427 | WARNING | client | 
+2022-12-05 17:33:31,467 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:33:59,093 | WARNING | client | Server has disconnected
+2022-12-05 17:34:03,556 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:34:11,052 |    INFO | client | Logging as  Vasss...
+2022-12-05 17:34:11,052 |    INFO | client | Starting input thread
+2022-12-05 17:34:51,243 | WARNING | client | Server has disconnected
+2022-12-05 17:36:14,795 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:36:23,955 |    INFO | client | Logging as  Vasss...
+2022-12-05 17:36:23,955 |    INFO | client | Starting input thread
+2022-12-05 17:37:05,187 | WARNING | client | Server has disconnected
+2022-12-05 17:37:10,499 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:37:50,790 |    INFO | client | Logging as  Vass...
+2022-12-05 17:37:50,790 |    INFO | client | Starting input thread
+2022-12-05 17:38:04,321 |    INFO | client | Connection terminated
+2022-12-05 17:38:43,347 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:40:20,574 | WARNING | client | Server has disconnected
+2022-12-05 17:40:36,180 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:40:46,812 |    INFO | client | Logging as  Vass4...
+2022-12-05 17:40:46,812 |    INFO | client | Starting input thread
+2022-12-05 17:41:03,174 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:43:14,071 |    INFO | client | Logging as  user22...
+2022-12-05 17:43:14,071 |    INFO | client | Starting input thread
+2022-12-05 17:43:36,587 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:43:41,909 |    INFO | client | Logging as  user33...
+2022-12-05 17:43:41,909 |    INFO | client | Starting input thread
+2022-12-05 17:45:09,377 | WARNING | client | Server has disconnected
+2022-12-05 17:45:09,378 | WARNING | client | Server has disconnected
+2022-12-05 17:45:09,379 | WARNING | client | Server has disconnected
+2022-12-05 17:45:15,167 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:45:20,777 |    INFO | client | Logging as  Vass...
+2022-12-05 17:45:20,777 |    INFO | client | Starting input thread
+2022-12-05 17:45:26,489 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:45:38,169 |    INFO | client | Logging as  Vass...
+2022-12-05 17:45:38,169 |    INFO | client | Starting input thread
+2022-12-05 17:48:45,456 | WARNING | client | Server has disconnected
+2022-12-05 17:48:45,457 | WARNING | client | Server has disconnected
+2022-12-05 17:48:59,073 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:49:07,644 |    INFO | client | Logging as  vass...
+2022-12-05 17:49:07,644 |    INFO | client | Starting input thread
+2022-12-05 17:49:43,540 | WARNING | client | Server has disconnected
+2022-12-05 17:49:46,037 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:49:51,720 |    INFO | client | Logging as  Vass...
+2022-12-05 17:49:51,720 |    INFO | client | Starting input thread
+2022-12-05 17:50:03,250 | WARNING | client | Server has disconnected
+2022-12-05 17:50:04,477 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:51:24,196 |    INFO | client | Logging as  new_1...
+2022-12-05 17:51:24,196 |    INFO | client | Starting input thread
+2022-12-05 17:54:16,207 | WARNING | client | Server has disconnected
+2022-12-05 17:54:32,388 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:54:39,842 |    INFO | client | Logging as  pass...
+2022-12-05 17:54:39,842 |    INFO | client | Starting input thread
+2022-12-05 17:56:14,620 | WARNING | client | Server has disconnected
+2022-12-05 17:56:17,041 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 17:56:21,182 |    INFO | client | Logging as pass...
+2022-12-05 17:56:21,182 |    INFO | client | Starting input thread
+2022-12-05 17:56:26,716 | WARNING | client | Server has disconnected
+2022-12-05 17:56:28,607 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:00:29,962 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:18:18,627 | WARNING | client | 
+2022-12-05 18:18:29,918 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:18:35,466 |    INFO | client | Logging as  pass...
+2022-12-05 18:18:35,466 |    INFO | client | Starting input thread
+2022-12-05 18:18:41,381 | WARNING | client | Server has disconnected
+2022-12-05 18:19:17,597 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:19:23,250 |    INFO | client | Logging as pass...
+2022-12-05 18:19:23,250 |    INFO | client | Starting input thread
+2022-12-05 18:19:29,857 | WARNING | client | Server has disconnected
+2022-12-05 18:19:32,997 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:19:37,714 |    INFO | client | Logging as pass...
+2022-12-05 18:19:37,714 |    INFO | client | Starting input thread
+2022-12-05 18:19:40,328 | WARNING | client | Server has disconnected
+2022-12-05 18:21:42,269 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:35:49,746 | WARNING | client | 
+2022-12-05 18:35:56,728 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:36:09,285 |    INFO | client | Logging as pass...
+2022-12-05 18:36:09,285 |    INFO | client | Starting input thread
+2022-12-05 18:36:27,674 | WARNING | client | Server has disconnected
+2022-12-05 18:39:28,115 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:39:33,419 |    INFO | client | Logging as pass...
+2022-12-05 18:39:33,419 |    INFO | client | Starting input thread
+2022-12-05 18:44:40,454 | WARNING | client | Server has disconnected
+2022-12-05 18:49:19,572 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:49:27,918 |    INFO | client | Logging as pass...
+2022-12-05 18:49:27,918 |    INFO | client | Starting input thread
+2022-12-05 18:51:50,510 | WARNING | client | Server has disconnected
+2022-12-05 18:51:58,177 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:52:04,873 |    INFO | client | Logging as vass...
+2022-12-05 18:52:04,873 |    INFO | client | Starting input thread
+2022-12-05 18:54:43,158 | WARNING | client | Server has disconnected
+2022-12-05 18:55:37,717 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 18:55:45,231 |    INFO | client | Logging as pass...
+2022-12-05 18:55:45,231 |    INFO | client | Starting input thread
+2022-12-05 19:02:49,690 | WARNING | client | Server has disconnected
+2022-12-05 19:02:54,261 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:02:59,343 |    INFO | client | Logging as pass...
+2022-12-05 19:02:59,343 |    INFO | client | Starting input thread
+2022-12-05 19:07:30,182 | WARNING | client | Server has disconnected
+2022-12-05 19:07:34,454 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:07:39,768 |    INFO | client | Logging as pass...
+2022-12-05 19:07:39,769 |    INFO | client | Starting input thread
+2022-12-05 19:07:46,313 | WARNING | client | Server has disconnected
+2022-12-05 19:08:59,455 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:14:22,241 | WARNING | client | 
+2022-12-05 19:14:26,400 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:14:37,206 |    INFO | client | Logging as pass...
+2022-12-05 19:14:37,206 |    INFO | client | Starting input thread
+2022-12-05 19:14:40,115 | WARNING | client | Server has disconnected
+2022-12-05 19:14:41,570 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:17:32,220 | WARNING | client | 
+2022-12-05 19:17:36,196 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:17:40,980 |    INFO | client | Logging as pass...
+2022-12-05 19:17:40,980 |    INFO | client | Starting input thread
+2022-12-05 19:17:43,438 | WARNING | client | Server has disconnected
+2022-12-05 19:17:45,050 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:17:47,604 |    INFO | client | Logging as pass...
+2022-12-05 19:17:47,605 |    INFO | client | Starting input thread
+2022-12-05 19:19:53,431 | WARNING | client | Server has disconnected
+2022-12-05 19:20:02,037 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:20:06,481 |    INFO | client | Logging as vass...
+2022-12-05 19:20:06,481 |    INFO | client | Starting input thread
+2022-12-05 19:20:08,337 | WARNING | client | Server has disconnected
+2022-12-05 19:20:19,049 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:20:28,991 |    INFO | client | Logging as vass...
+2022-12-05 19:20:28,991 |    INFO | client | Starting input thread
+2022-12-05 19:20:33,891 | WARNING | client | Server has disconnected
+2022-12-05 19:20:51,788 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:20:56,474 |    INFO | client | Logging as vass...
+2022-12-05 19:20:56,474 |    INFO | client | Starting input thread
+2022-12-05 19:21:46,904 | WARNING | client | Server has disconnected
+2022-12-05 19:21:50,439 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:21:55,299 |    INFO | client | Logging as vass...
+2022-12-05 19:21:55,300 |    INFO | client | Starting input thread
+2022-12-05 19:22:50,795 | WARNING | client | Server has disconnected
+2022-12-05 19:22:54,702 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:23:00,218 |    INFO | client | Logging as vass...
+2022-12-05 19:23:00,218 |    INFO | client | Starting input thread
+2022-12-05 19:23:37,882 | WARNING | client | Server has disconnected
+2022-12-05 19:23:46,706 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 19:23:55,267 |    INFO | client | Logging as vass...
+2022-12-05 19:23:55,267 |    INFO | client | Starting input thread
+2022-12-05 19:24:02,116 | WARNING | client | Server has disconnected
+2022-12-05 20:53:30,141 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 20:53:35,847 |    INFO | client | Logging as pass...
+2022-12-05 20:53:35,847 |    INFO | client | Starting input thread
+2022-12-05 20:54:25,175 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 20:54:29,099 |    INFO | client | Logging as pass...
+2022-12-05 20:54:29,100 |    INFO | client | Starting input thread
+2022-12-05 20:54:48,048 | WARNING | client | Server has disconnected
+2022-12-05 20:55:09,382 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 20:55:21,797 |    INFO | client | Logging as pass...
+2022-12-05 20:55:21,797 |    INFO | client | Starting input thread
+2022-12-05 22:14:54,828 | WARNING | client | Server has disconnected
+2022-12-05 22:25:53,447 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-05 22:26:05,002 |    INFO | client | Logging as 'Vasya' ...
+2022-12-05 22:26:05,002 |    INFO | client | Starting input thread
+2022-12-05 22:26:07,766 | WARNING | client | Server has disconnected
+2022-12-06 06:54:44,515 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-06 06:55:05,106 |    INFO | client | Logging as 'user_1' ...
+2022-12-06 06:55:05,106 |    INFO | client | Starting input thread
+2022-12-06 06:56:02,323 | WARNING | client | Server has disconnected
+2022-12-06 06:56:12,441 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-06 06:56:17,451 |    INFO | client | Logging as 'user_1' ...
+2022-12-06 06:56:17,451 |    INFO | client | Starting input thread
+2022-12-06 06:56:22,943 | WARNING | client | Server has disconnected
+2022-12-06 07:37:09,641 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-06 07:37:22,345 |    INFO | client | Logging as 'user_1' ...
+2022-12-06 07:37:22,345 |    INFO | client | Starting input thread
+2022-12-06 07:39:36,127 | WARNING | client | Server has disconnected
+2022-12-06 07:41:45,424 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-06 07:42:00,065 |    INFO | client | Logging as 'user_1' ...
+2022-12-06 07:42:00,065 |    INFO | client | Starting input thread
+2022-12-06 07:42:27,138 | WARNING | client | Server has disconnected
+2022-12-06 07:51:23,189 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-06 07:51:36,620 |    INFO | client | Logging as 'user_1' ...
+2022-12-06 07:51:36,620 |    INFO | client | Starting input thread
+2022-12-06 07:52:40,361 |    INFO | client | Connecting to: 127.0.0.1:4444
+2022-12-06 07:52:53,075 |    INFO | client | Logging as 'user_2' ...
+2022-12-06 07:52:53,075 |    INFO | client | Starting input thread
+2022-12-06 07:53:28,405 | WARNING | client | Server has disconnected
+2022-12-06 07:53:28,405 | WARNING | client | Server has disconnected

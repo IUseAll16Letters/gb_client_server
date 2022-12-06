@@ -1,6 +1,10 @@
+if __name__ == '__main__':
+    import sys
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent.parent))
+
 import asyncio
 import argparse
-import sys
 import time
 import sqlalchemy
 
@@ -8,10 +12,6 @@ from typing import Optional
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio.engine import AsyncConnection
-
-if __name__ == '__main__':
-    from pathlib import Path
-    sys.path.append(str(Path(__file__).parent.parent))
 
 from project.utils.config import *
 from asyncio.streams import StreamWriter, StreamReader
@@ -41,17 +41,16 @@ async def main() -> None:
         username = None
         try:
             while True:
+                print(f'SERVER {username = }')
                 request = await reader.read(PACKAGE_SIZE)
                 resp_data = await handle_request(
                     message=request,
                     writer=writer,
                     authorized=authorized,
-                    db_object=database_users
+                    db_object=conn,
+                    user=username
                 )
-                # Зачем это тут на каждом сообщении, м? 22.11.28 Это всё еще тут. Надо опимизировать
-                if isinstance(resp_data, dict) and resp_data.get('user') is not None:
-                    username = resp_data.get('user')
-
+                username = resp_data if resp_data else username
                 time.sleep(0.25)
 
         except ConnectionResetError as e:
@@ -78,6 +77,7 @@ async def main() -> None:
 
         async with server:
             logs.ServerLoggerObject.logger.info(msg=f'Listening at {HOST}:{PORT}')
+            print(f'Listening at {HOST}:{PORT}')
             await server.serve_forever()
 
 
