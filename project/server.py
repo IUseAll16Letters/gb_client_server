@@ -6,22 +6,19 @@ if __name__ == '__main__':
 import asyncio
 import argparse
 import time
-import sqlalchemy
 
-from typing import Optional
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio.engine import AsyncConnection
 
-from project.utils.config import *
 from asyncio.streams import StreamWriter, StreamReader
+from project.utils.config import *
 from project.utils.utils import handle_request, get_database_object, setup_db
 from project import logs
 
 
 # Заглушка пока отсутствует базаданных, для сессий
 authorized = dict()
-database_users = get_database_object(DIR_PATH / 'db.txt')
+# database_users = get_database_object(DIR_PATH / 'db.txt')
 
 
 async def main() -> None:

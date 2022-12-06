@@ -24,9 +24,7 @@ async def tcp_client(host: str, port: int):
     try:
         while True:
             try:
-                print('Try auth again')
-                auth = True
-                username_input = 'u2' if DEBUG else input(LOGIN_MESSAGE).strip()
+                username_input = input(LOGIN_MESSAGE).strip()
 
                 if username_input == 'quit':
                     writer.write(make_message(Message.quit))
@@ -38,16 +36,21 @@ async def tcp_client(host: str, port: int):
                     user_password_2 = input('Repeat password: ').strip()
                     if user_password == user_password_2:
                         user_login_data = {'user': {USERNAME: username_input, PASSWORD: user_password}}
-                        auth = False
+                        writer.write(make_message(Message.register, **user_login_data))
                     else:
+                        print('Passwords should be similar')
                         continue
+                elif '/ping' in username_input.lower():
+                    writer.write(make_message(Message.ping))
+                    await writer.drain()
+                    _, message = handle_response(await reader.read(PACKAGE_SIZE))
+                    print(message)
+                    continue
                 else:
-                    user_password = 'password' if DEBUG else input('password: ').strip()
+                    user_password = input('password: ').strip()
                     user_login_data = {'user': {USERNAME: username_input, PASSWORD: user_password}}
+                    writer.write(make_message(Message.authenticate, **user_login_data))
 
-                print(f'>{username_input}< | >{user_password}<')
-
-                writer.write(make_message(Message.authenticate if auth else Message.register, **user_login_data))
                 await writer.drain()
 
                 permit, message = handle_response(await reader.read(PACKAGE_SIZE))
@@ -70,7 +73,7 @@ async def tcp_client(host: str, port: int):
         while True:
             server_response = await reader.read(PACKAGE_SIZE)
             _, message = handle_response(server_response)
-            print(message)
+            print(message + '\n>>> ')
             await asyncio.sleep(0.1)
 
     except ConnectionResetError as connection_reset:

@@ -50,7 +50,11 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
     request_action = Message(message.get('action'))
 
     if request_action is Message.quit:
-        authorized.pop(user)
+        try:
+            authorized.pop(user)
+        except KeyError:
+            raise ConnectionResetError
+
         logs.ServerLoggerObject.logger.info(msg=f'Client {writer.get_extra_info("peername")} wants to quit')
         await save_connection_data(writer.get_extra_info('peername'), db_object, False)
         writer.close()
@@ -100,7 +104,7 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
         return 0
 
     elif request_action is Message.ping:
-        ping = f"{round(datetime.datetime.now().timestamp() - message.get('time') - 0.5, 5)} s"
+        ping = f"{round((datetime.datetime.now().timestamp() - message.get('time')) * 1000, 2)} ms"
         writer.write(generate_response_message(Status.OK, **{'ping': ping}))
         await writer.drain()
         return 0
@@ -126,7 +130,7 @@ def handle_response(server_response: bytes) -> Tuple[bool, str]:
         if action is None and response_data.get('message') == 'Created':
             return False, 'User created, now log in'
         elif action is None:
-            return True, response_data.get('ping')
+            return True, f"Ping to server: {response_data.get('ping')}"
         elif action is not None and Message(action) is Message.msg:
             return True, f"from {response_data['from']}: {response_data['message']}"
 
@@ -203,11 +207,17 @@ async def client_send_message_loop(writer, username: str):
             message_to = input('Send to >> ')
             if message_to == 'quit':
                 writer.write(make_message(Message.quit))
-                return 0
-            buffer = input("Message >> ")
-            writer.write(make_message(Message.msg, **{'message': buffer, 'from': username, 'to': message_to}))
+                await writer.drain()
+                raise KeyboardInterrupt
+
+            elif '/ping' in message_to.lower():
+                writer.write(make_message(Message.ping))
+            else:
+                buffer = input("Message >> ")
+                writer.write(make_message(Message.msg, **{'message': buffer, 'from': username, 'to': message_to}))
             await writer.drain()
             time.sleep(0.25)
+
         except KeyboardInterrupt:
             return -1
         except UnicodeDecodeError:
@@ -264,7 +274,7 @@ async def create_new_user(user_data: tuple, conn: AsyncConnection) -> Tuple[bool
     return True, user_data[0]
 
 
-async def save_connection_data(addr_pair: tuple, conn: AsyncConnection, connected: bool = True):
+async def save_connection_data(addr_pair: tuple, conn: AsyncConnection, connected: bool = False):
     max_id = await conn.execute(text("SELECT MAX(connection_id) FROM connections"))
     max_id = max_id.all()[0][0]
     max_id = max_id + 1 if max_id is not None else 1
