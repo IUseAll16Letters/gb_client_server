@@ -16,9 +16,7 @@ from project.utils.utils import handle_request, get_database_object, setup_db
 from project import logs
 
 
-# Заглушка пока отсутствует базаданных, для сессий
 authorized = dict()
-# database_users = get_database_object(DIR_PATH / 'db.txt')
 
 
 async def main() -> None:
