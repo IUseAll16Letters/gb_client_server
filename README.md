@@ -5,6 +5,8 @@ gb: client-server applications course
   - asyncio (server / client-in)
   - threading (client-out)
   - unittest
+  - Sqlalchemy
+  - aiosqlite
 
 ## Description of the project:
 Async server with async client using threading for input stream;
