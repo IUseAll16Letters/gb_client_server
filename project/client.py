@@ -1,12 +1,12 @@
-import asyncio
-import argparse
-import sys
-import time
-import threading
-
 if __name__ == '__main__':
+    import sys
     from pathlib import Path
     sys.path.append(str(Path(__file__).parent.parent))
+
+import asyncio
+import argparse
+import time
+import threading
 
 from project.utils.config import *
 from project.utils.utils import make_message, handle_response, client_send_message_loop
@@ -23,23 +23,44 @@ async def tcp_client(host: str, port: int):
 
     try:
         while True:
-            username_input = 'u2' if DEBUG else input('username: ').strip()
-            user_password = 'password' if DEBUG else input('password: ').strip()
+            try:
+                username_input = input(LOGIN_MESSAGE).strip()
 
-            if username_input == 'quit':
-                writer.write(make_message(Message.quit))
-                return -1
-            user_login_data = {
-                'user': {USERNAME: username_input,
-                         PASSWORD: user_password}}
+                if username_input == 'quit':
+                    writer.write(make_message(Message.quit))
+                    raise ConnectionResetError
 
-            writer.write(make_message(Message.authenticate, **user_login_data))
-            await writer.drain()
+                elif '/register' in username_input.lower() and \
+                        len((username_input := username_input.partition('/register')[-1].strip())) > 3:
+                    user_password = input('Select password: ').strip()
+                    user_password_2 = input('Repeat password: ').strip()
+                    if user_password == user_password_2:
+                        user_login_data = {'user': {USERNAME: username_input, PASSWORD: user_password}}
+                        writer.write(make_message(Message.register, **user_login_data))
+                    else:
+                        print('Passwords should be similar')
+                        continue
+                elif '/ping' in username_input.lower():
+                    writer.write(make_message(Message.ping))
+                    await writer.drain()
+                    _, message = handle_response(await reader.read(PACKAGE_SIZE))
+                    print(message)
+                    continue
+                else:
+                    user_password = input('password: ').strip()
+                    user_login_data = {'user': {USERNAME: username_input, PASSWORD: user_password}}
+                    writer.write(make_message(Message.authenticate, **user_login_data))
 
-            permit, message = handle_response(await reader.read(PACKAGE_SIZE))
-            if permit:
-                logs.ClientLoggerObject.logger.info(msg=f'Logging as {username_input}...')
-                break
+                await writer.drain()
+
+                permit, message = handle_response(await reader.read(PACKAGE_SIZE))
+                if permit:
+                    print(f'Logging as {username_input}...')
+                    logs.ClientLoggerObject.logger.info(msg=f"Logging as '{username_input}' ...")
+                    break
+
+            except KeyboardInterrupt:
+                raise ConnectionResetError
 
             time.sleep(1)
 
@@ -52,7 +73,7 @@ async def tcp_client(host: str, port: int):
         while True:
             server_response = await reader.read(PACKAGE_SIZE)
             _, message = handle_response(server_response)
-            print(message)
+            print(message + '\n>>> ')
             await asyncio.sleep(0.1)
 
     except ConnectionResetError as connection_reset:

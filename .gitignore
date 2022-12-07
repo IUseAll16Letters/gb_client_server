@@ -1,12 +1,8 @@
-# created by virtualenv automatically
 /.git
 /.idea
 /Lib
 /Scripts
 /practice
-
-/project/asc.py
-/project/task
 
 /practice
 
