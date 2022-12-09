@@ -4,7 +4,6 @@ if __name__ == '__main__':
     sys.path.append(str(Path(__file__).parent.parent))
 
 import asyncio
-import argparse
 import time
 
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -12,7 +11,8 @@ from sqlalchemy.ext.asyncio.engine import AsyncConnection
 
 from asyncio.streams import StreamWriter, StreamReader
 from project.utils.config import *
-from project.utils.utils import handle_request, get_database_object, setup_db
+from project.utils.utils import handle_request, parse_start_arguments
+from project.utils.db_utils import setup_db
 from project import logs
 
 
@@ -20,14 +20,6 @@ authorized = dict()
 
 
 async def main() -> None:
-    argument_parser = argparse.ArgumentParser(description='Server start parameters')
-    argument_parser\
-        .add_argument('-a', '--addr', type=str, dest='addr', help=f'Server ip, def = {HOST}', default=HOST)
-    argument_parser.add_argument('-p', '--port', type=int, dest='port', default=PORT)
-
-    arguments = argument_parser.parse_args()
-
-    engine = create_async_engine("sqlite+aiosqlite:///./users.db")
 
     async def handler(reader: StreamReader, writer: StreamWriter) -> None:
 
@@ -36,7 +28,6 @@ async def main() -> None:
         username = None
         try:
             while True:
-                print(f'SERVER {username = }')
                 request = await reader.read(PACKAGE_SIZE)
                 resp_data = await handle_request(
                     message=request,
@@ -48,7 +39,7 @@ async def main() -> None:
                 username = resp_data if resp_data else username
                 time.sleep(0.25)
 
-        except ConnectionResetError as e:
+        except ConnectionResetError as c_r_e:
             if username:
                 logs.ServerLoggerObject.logger.info(msg=f'User "{username}" disconnected')
                 try:
@@ -63,6 +54,8 @@ async def main() -> None:
                 )
 
         writer.close()
+    arguments = parse_start_arguments()
+    engine = create_async_engine(f"sqlite+aiosqlite:///{DB_PATH}")
 
     # TODO: Как правильно передавать объект подключения к бд??
     async with engine.connect() as conn:
@@ -71,8 +64,8 @@ async def main() -> None:
         server = await asyncio.start_server(client_connected_cb=handler, host=arguments.addr, port=arguments.port)
 
         async with server:
-            logs.ServerLoggerObject.logger.info(msg=f'Listening at {HOST}:{PORT}')
-            print(f'Listening at {HOST}:{PORT}')
+            logs.ServerLoggerObject.logger.debug(msg=f'Listening at {arguments.addr}:{arguments.port}')
+            print(f'Listening at {arguments.addr}:{arguments.port}')
             await server.serve_forever()
 
 
