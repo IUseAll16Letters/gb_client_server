@@ -53,8 +53,8 @@ PASSWORD = 'password'
 
 PACKAGE_SIZE = 604  # Max package size in bytes
 
-# HOST = '192.168.0.103'
-HOST = '127.0.0.1'
+HOST = '192.168.0.103'
+# HOST = '127.0.0.1'
 PORT = 4444
 
 PASSWORD_SALT = 'a1e0b9ed02d0719c313114ae83b93dfb2e48d7e99a7624af894aaa81205f44d1'

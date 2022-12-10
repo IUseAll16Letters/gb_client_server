@@ -1,6 +1,0 @@
-2022-12-10 10:11:15,887 |   DEBUG | server | Listening at 127.0.0.1:4444
-2022-12-10 10:11:22,412 | WARNING | server | Server closing
-2022-12-10 10:13:03,318 |   DEBUG | server | Listening at 127.0.0.1:4444
-2022-12-10 10:13:07,751 |    INFO | server | Connection from ('127.0.0.1', 46602) | waiting authorize
-2022-12-10 10:13:20,488 |    INFO | server | fnc: make_secure_password | args: ('pas',) | kwargs: {} | stated in: /mnt/i/docker_practice/gb_client_server_apps/project/utils/utils.py | Called from function create_new_user line 313 | 
-2022-12-10 10:13:20,505 |    INFO | server | fnc: generate_response_message | args: (<Status.OK: 200>,) | kwargs: {'message': 'Created ananas'} | stated in: /mnt/i/docker_practice/gb_client_server_apps/project/utils/utils.py | Called from function handle_request line 80 | 

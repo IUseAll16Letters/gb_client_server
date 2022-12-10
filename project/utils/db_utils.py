@@ -9,14 +9,14 @@ from project.utils.config import *
 
 
 async def setup_db(conn: AsyncConnection) -> None:
-    await conn.execute(text(f'DROP TABLE IF EXISTS connections'))
+    await conn.execute(text(f'-- DROP TABLE IF EXISTS connections'))
     await conn.execute(text(f'CREATE TABLE IF NOT EXISTS connections ('
                             f'id INTEGER PRIMARY KEY AUTOINCREMENT,'
                             f'peername TEXT,'
                             f'event_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,'
                             f'is_leaving BOOl)'))
 
-    await conn.execute(text(f'DROP TABLE IF EXISTS users'))
+    # await conn.execute(text(f'DROP TABLE IF EXISTS users'))
     await conn.execute(text(f'CREATE TABLE IF NOT EXISTS users ('
                             f'id INTEGER PRIMARY KEY AUTOINCREMENT,'
                             f'name VARCHAR(50),'
@@ -28,7 +28,7 @@ async def setup_db(conn: AsyncConnection) -> None:
         for i in range(1, 4):
             await conn.execute(s, {'un': f'u{i}', 'up': TEST_PASSWORD})
 
-    await conn.execute(text(f'DROP TABLE IF EXISTS user_messages'))
+    await conn.execute(text(f'-- DROP TABLE IF EXISTS user_messages'))
     await conn.execute(text(f'CREATE TABLE IF NOT EXISTS user_messages ('
                             f'id INTEGER PRIMARY KEY AUTOINCREMENT,'
                             f'from_user VARCHAR(50),'
@@ -38,7 +38,7 @@ async def setup_db(conn: AsyncConnection) -> None:
                             f'FOREIGN KEY(from_user) REFERENCES users(id),'
                             f'FOREIGN KEY(to_user) REFERENCES users(id))'))
 
-    await conn.execute(text(f'DROP TABLE IF EXISTS groups'))
+    await conn.execute(text(f'-- DROP TABLE IF EXISTS groups'))
     await conn.execute(text(f'CREATE TABLE IF NOT EXISTS groups ('
                             f'id INTEGER PRIMARY KEY AUTOINCREMENT, '
                             f'name VARCHAR(55), '
@@ -47,7 +47,7 @@ async def setup_db(conn: AsyncConnection) -> None:
                             f'created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, '
                             f'FOREIGN KEY(user_id) REFERENCES users(id))'))
 
-    await conn.execute(text(f'DROP TABLE IF EXISTS user_group'))
+    await conn.execute(text(f'-- DROP TABLE IF EXISTS user_group'))
     await conn.execute(text(f'CREATE TABLE IF NOT EXISTS user_group ('
                             f'id INTEGER PRIMARY KEY AUTOINCREMENT, '
                             f'user_id INTEGER NOT NULL, '
