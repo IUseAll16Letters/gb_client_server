@@ -31,6 +31,8 @@ async def main() -> None:
         username = None
         try:
             while True:
+                # TODO: If there are more than one message in buffer?
+                #  for msg in request.replace(b'}{, b'}&|&{').split(b'&|&')
                 request = await reader.read(PACKAGE_SIZE)
                 resp_data = await handle_request(
                     message=request,
