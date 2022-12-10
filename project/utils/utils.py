@@ -40,8 +40,23 @@ def generate_response_message(code: Status, **kwargs):
 
 
 async def handle_request(message: bytes, writer: StreamWriter, authorized: Optional[Dict[str, StreamWriter]],
-                         db_object: Union[dict, AsyncConnection], user):
-    """Main server handler"""
+                         db_object: AsyncConnection, user):
+    """
+    message - bytes, message from user in form {action: Message, **kwargs};
+    writer - Stream object related to client reader socker;
+    authorized  - dict with users currently logged in;
+    db_object - Async db connection;
+    user - username related to StreamWriter in current coroutine
+    Main server requests processor:
+        quit - raises ConnectionResetError, stops user streams, removes from authorized.
+        register - new user creation if not exists.
+        authenticate - auth user, if already authed - checks authorized dict.
+        msg - sends message to user or group if send_to stats with '#'.
+        create, join, leave, party - group functions. Party shows groups user is joined.
+        presence - default message, deprecated.
+        ping - check the delay to server in ms, based on time difference
+        coffee - check if server is a teapot! very important command!
+    """
     if not message:
         raise ConnectionResetError
 
@@ -141,6 +156,9 @@ async def handle_request(message: bytes, writer: StreamWriter, authorized: Optio
         logs.ServerLoggerObject.logger.info(msg='Server is a teapot!')
         await writer.drain()
         return 0
+
+    else:
+        raise ConnectionResetError('Unknown message, error occurred')
 
 
 def handle_response(server_response: bytes) -> Tuple[bool, str]:

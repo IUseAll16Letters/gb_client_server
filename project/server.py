@@ -22,6 +22,9 @@ authorized = dict()
 async def main() -> None:
 
     async def handler(reader: StreamReader, writer: StreamWriter) -> None:
+        """
+        Main server handler. Process requests from users with handle_request() function.
+        """
 
         logs.ServerLoggerObject.logger.info(
             msg=f'Connection from {writer.get_extra_info("peername")} | waiting authorize')
@@ -39,12 +42,12 @@ async def main() -> None:
                 username = resp_data if resp_data else username
                 time.sleep(0.25)
 
-        except ConnectionResetError as c_r_e:
+        except ConnectionResetError:
             if username:
                 logs.ServerLoggerObject.logger.info(msg=f'User "{username}" disconnected')
                 try:
                     authorized.pop(username)
-                except KeyError as k_e:
+                except KeyError:
                     logs.ServerLoggerObject.logger.error(
                         msg=f'Server error | {username} {writer.get_extra_info("peername")} has already left')
 
@@ -52,8 +55,8 @@ async def main() -> None:
                 logs.ServerLoggerObject.logger.info(
                     msg=f"{writer.get_extra_info('peername')} has disconnected without authorization"
                 )
-
         writer.close()
+
     arguments = parse_start_arguments()
     engine = create_async_engine(f"sqlite+aiosqlite:///{DB_PATH}")
 

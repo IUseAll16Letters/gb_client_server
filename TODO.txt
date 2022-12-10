@@ -4,9 +4,11 @@ that should be used as a backend part in future for GUI message manager.
 Major:
     1. Rewrite SQL requests to ORM style, instead of raw;
     2. Make superuser mechanics;
-    3. DRY return codes of main functions;
-    4. Remake authorization mechanism from dict based to session or cookie based;
+    3. DRY rewrite code of main functions;
+    4. Re-make authorization mechanism from dict based to session or cookie based;
 Minor:
-    1. Username at register verification, remove spaces or replace them with underscores;
+    1. Verify username at /register:
+        a. remove spaces or replace them with underscores;
+        b. use regexp to scan username.
     2. Rewrite code to OOP patterns;
     3. Optimize client handler logics, too askew;
