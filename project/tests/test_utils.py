@@ -14,7 +14,7 @@ def remove_time_from_byteobject(message: bytes):
 class TestUtils(unittest.TestCase):
     def setUp(self) -> None:
         self.user_data = {'user': {'username': 'u2', 'password': 'password'}}
-        self.get_database_object = get_database_object('../db.txt')
+        self.get_database_object = get_database_object('./test_db.txt')
         self.username = get_user_data_from_set(self.user_data)
         self.authorized = {'u2': 'StreamWriter', 'user1': 'StreamWriter'}
 
@@ -34,16 +34,8 @@ class TestUtils(unittest.TestCase):
         result_message = remove_time_from_byteobject(make_message(
             config.Message.quit,
         ))
-        required_message = b'{"action": 8}'
+        required_message = b'{"action": 9}'
         self.assertEqual(result_message, required_message, msg='wrong quit message')
-
-    def test_verification_is_correct(self):
-        self.assertEqual(verify_password(
-            username='u2',
-            password='password', db_object=self.get_database_object
-        ),
-            True,
-            msg='The password supplied should be detected as correct')
 
     def test_password_hashing_is_correct(self):
         self.assertEqual(
@@ -63,12 +55,6 @@ class TestUtils(unittest.TestCase):
     def test_get_userdata_raises_key_error_at_wrong_dict(self):
         with self.assertRaises(KeyError):
             get_user_data_from_set({'user': {'ONE': 'TWO', 'THREE': 'password1'}})
-
-    def test_authorized_correct(self):
-        authorization_response = authorize(self.user_data, self.get_database_object, {'1': None}, None)
-
-        self.assertTrue(authorization_response, msg=f'Wrong authorization result for: {self.username}\n'
-                                                    f'{self.get_database_object}')
 
     def test_user_is_authorized(self):
         is_authorized_flag = is_authorized(self.user_data, self.authorized)
