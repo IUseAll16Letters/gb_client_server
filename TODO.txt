@@ -2,10 +2,11 @@ Remember that this is only a console text messenger (with related bugs),
 that should be used as a backend part in future for GUI message manager.
 
 Major:
-    1. Rewrite SQL requests to ORM style, instead of raw;
-    2. Make superuser mechanics;
-    3. DRY rewrite code of main functions;
-    4. Re-make authorization mechanism from dict based to session or cookie based;
+    1. Clean code;
+    2. Rewrite SQL requests to ORM style, instead of raw;
+    3. Make superuser mechanics;
+    4. DRY rewrite code of main functions;
+    5. Re-make authorization mechanism from dict based to session or cookie based;
 Minor:
     1. Verify username at /register:
         a. remove spaces or replace them with underscores;
